@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI pilot  Project</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+</head>
+<body>
+
+<!-- ── AUTH PAGE ──────────────────────────────────────────────────── -->
+<div id="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo">
+      <span class="logo-icon">💬</span>
+      <h1>AI pilot</h1>
+      <p>A Slack-inspired messaging platform — powered by AI</p>
+    </div>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" data-tab="login">Sign In</button>
+      <button class="auth-tab" data-tab="register">Create Account</button>
+    </div>
+
+    <!-- Login Form -->
+    <div id="form-login" class="auth-form active">
+      <div id="login-error" class="auth-error"></div>
+      <div class="field">
+        <label>Username</label>
+        <input id="login-username" type="text" placeholder="your-username" autocomplete="username">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button id="login-btn" class="submit-btn">Sign In</button>
+    </div>
+
+    <!-- Register Form -->
+    <div id="form-register" class="auth-form">
+      <div id="register-error" class="auth-error"></div>
+      <div class="field">
+        <label>Username <span style="color:#e01e5a">*</span></label>
+        <input id="reg-username" type="text" placeholder="john.doe">
+      </div>
+      <div class="field">
+        <label>Display Name</label>
+        <input id="reg-displayname" type="text" placeholder="John Doe">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input id="reg-email" type="email" placeholder="john@example.com">
+      </div>
+      <div class="field">
+        <label>Password <span style="color:#e01e5a">*</span></label>
+        <input id="reg-password" type="password" placeholder="Min 6 characters">
+      </div>
+      <button id="register-btn" class="submit-btn">Create Account</button>
+    </div>
+
+    <p style="text-align:center;margin-top:16px;font-size:12px;color:#868686;">
+      Built with Django + spaCy AI &nbsp;·&nbsp; College Project
+    </p>
+  </div>
+</div>
+
+<!-- ── WORKSPACE PAGE ────────────────────────────────────────────── -->
+<div id="workspace-page" style="display:none">
+  <div class="workspace-card">
+    <h2>Your Workspaces</h2>
+    <p>Choose a workspace to continue, or create a new one.</p>
+
+    <div id="workspace-list" class="workspace-list"></div>
+
+    <hr style="border:none;border-top:1px solid #e8e8e8;margin:16px 0;">
+    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">Create a New Workspace</h3>
+    <div style="display:flex;gap:8px;">
+      <input id="ws-name" type="text" placeholder="My Workspace"
+             style="flex:1;padding:8px 12px;border:1px solid #e8e8e8;border-radius:4px;font-size:14px;outline:none;"
+             onkeydown="if(event.key==='Enter') createWorkspace()">
+      <button class="btn btn-primary" onclick="createWorkspace()">Create</button>
+    </div>
+
+    <div style="margin-top:20px;text-align:center;">
+      <button class="btn btn-ghost" onclick="logout()" style="font-size:13px;">Sign Out</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN APP ───────────────────────────────────────────────────── -->
+<div id="app">
+
+  <!-- App Header -->
+  <div class="app-header">
+    <span class="workspace-name" id="workspace-title">Workspace</span>
+    <div class="header-search">
+      <input id="search-input" type="text" placeholder="🔍  Search with AI...">
+      <span class="search-icon">⌘K</span>
+    </div>
+    <div style="position:absolute;right:16px;display:flex;align-items:center;gap:10px;">
+      <span id="ws-status" style="font-size:12px;color:#2bac76">🟢 Live</span>
+    </div>
+    <!-- Search Results Dropdown -->
+    <div id="search-results" class="search-results"></div>
+  </div>
+
+  <!-- App Body -->
+  <div class="app-body">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+
+      <!-- Channels -->
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <span>
+            <span class="sidebar-chevron open">▼</span>
+            Channels
+          </span>
+          <button class="add-btn" onclick="openCreateChannelModal()" title="Add a channel">+</button>
+        </div>
+        <div id="channel-list"></div>
+      </div>
+
+      <!-- Direct Messages -->
+      <div class="sidebar-section">
+        <div class="sidebar-section-header">
+          <span>
+            <span class="sidebar-chevron open">▼</span>
+            Direct Messages
+          </span>
+          <button class="add-btn" onclick="openNewDMModal()" title="New direct message">+</button>
+        </div>
+        <div id="dm-list"></div>
+      </div>
+
+      <!-- User Area -->
+      <div class="sidebar-user" onclick="openProfileModal()">
+        <div class="sidebar-user-avatar" id="sidebar-avatar" style="background:#4A154B">U</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebar-username">User</div>
+          <div class="sidebar-user-status">Active</div>
+        </div>
+        <span style="color:rgba(255,255,255,0.5);font-size:12px;">⚙️</span>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+      <!-- Channel Header -->
+      <div class="channel-header">
+        <h2 id="channel-name"># general</h2>
+        <span class="description" id="channel-description"></span>
+        <div class="header-actions">
+          <span id="ai-summary-badge" style="display:none;font-size:11px;background:#f5f0fc;color:#7c3085;padding:3px 8px;border-radius:10px;font-weight:700;"></span>
+          <button class="header-btn" onclick="showMembersModal()">👥 <span class="member-count" id="member-count">Members</span></button>
+          <button class="header-btn" onclick="showPinsModal()">📌 Pins</button>
+          <button class="header-btn" onclick="logout()">🚪 Sign Out</button>
+        </div>
+      </div>
+
+      <!-- Messages Area -->
+      <div class="messages-area" id="messages-area">
+        <div id="messages-container"></div>
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator" id="typing-indicator"></div>
+
+      <!-- Message Input -->
+      <div class="input-area">
+        <div class="input-box" style="position:relative;">
+          <div id="mention-dropdown" class="mention-dropdown"></div>
+          <div class="input-toolbar">
+            <button class="input-tool" title="Bold" onclick="wrapText('*')">𝐁</button>
+            <button class="input-tool" title="Code" onclick="wrapText('`')">⌨</button>
+            <button class="input-tool" title="Emoji" onclick="toggleInputEmoji()">😊</button>
+            <button class="input-tool" title="Attach file">📎</button>
+          </div>
+          <textarea id="msg-input" placeholder="Message #general" id="msg-placeholder" rows="1"
+                    oninput="autoResize(this)"></textarea>
+          <div class="input-bottom">
+            <span class="input-hint">⏎ to send · ⇧⏎ for new line · @ to mention</span>
+            <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
+              Send ➤
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thread Panel -->
+    <div class="thread-panel" id="thread-panel">
+      <div class="thread-header">
+        <h3>Thread</h3>
+        <button class="thread-close" onclick="closeThread()">✕</button>
+      </div>
+      <div class="thread-messages" id="thread-messages"></div>
+      <div class="thread-input">
+        <div class="input-box">
+          <textarea id="thread-input" placeholder="Reply in thread…" rows="2"
+                    style="width:100%;border:none;outline:none;padding:8px 12px;font-family:Lato,sans-serif;font-size:14px;resize:none;"></textarea>
+          <div style="display:flex;justify-content:flex-end;padding:4px 8px 6px;">
+            <button class="send-btn" onclick="sendThreadReply()">Reply ➤</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ── MODALS ──────────────────────────────────────────────────────── -->
+
+<!-- Create Channel Modal -->
+<div class="modal-overlay" id="create-channel-modal">
+  <div class="modal">
+    <h2>Create a Channel</h2>
+    <label>Channel Name <span style="color:#e01e5a">*</span></label>
+    <input id="new-channel-name" type="text" placeholder="e.g. project-updates"
+           onkeydown="if(event.key==='Enter') createChannel()">
+    <label>Description</label>
+    <textarea id="new-channel-desc" placeholder="What's this channel about?"></textarea>
+    <label>Type</label>
+    <select id="new-channel-type">
+      <option value="public">🌐 Public — Anyone in the workspace</option>
+      <option value="private">🔒 Private — Invite only</option>
+    </select>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeCreateChannelModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="createChannel()">Create Channel</button>
+    </div>
+  </div>
+</div>
+
+<!-- New DM Modal -->
+<div class="modal-overlay" id="new-dm-modal">
+  <div class="modal">
+    <h2>New Direct Message</h2>
+    <label>Select a team member</label>
+    <div id="dm-member-list" style="max-height:300px;overflow-y:auto;margin-top:8px;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeNewDMModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Members Modal -->
+<div class="modal-overlay" id="members-modal">
+  <div class="modal">
+    <h2>Channel Members</h2>
+    <div id="members-list" style="max-height:350px;overflow-y:auto;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('members-modal').classList.remove('visible')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Pins Modal -->
+<div class="modal-overlay" id="pins-modal">
+  <div class="modal">
+    <h2>📌 Pinned Messages</h2>
+    <div id="pins-list" style="max-height:350px;overflow-y:auto;"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('pins-modal').classList.remove('visible')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="modal-overlay" id="profile-modal">
+  <div class="modal">
+    <h2>Your Profile</h2>
+    <label>Display Name</label>
+    <input id="prof-displayname" type="text" placeholder="How you appear to teammates">
+    <label>Status</label>
+    <select id="prof-status">
+      <option value="active">🟢 Active</option>
+      <option value="away">🟡 Away</option>
+      <option value="dnd">🔴 Do Not Disturb</option>
+      <option value="offline">⚫ Offline</option>
+    </select>
+    <label>Status Message</label>
+    <input id="prof-status-text" type="text" placeholder="What are you up to?">
+    <label>Bio</label>
+    <textarea id="prof-bio" placeholder="Tell your team about yourself"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="document.getElementById('profile-modal').classList.remove('visible')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── TOAST CONTAINER ──────────────────────────────────────────────── -->
+<div class="toast-container" id="toast-container"></div>
+
+<!-- ── SCRIPTS ──────────────────────────────────────────────────────── -->
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+<script>
+// Extra utility handlers
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+}
+
+function wrapText(char) {
+  const input = document.getElementById('msg-input');
+  const start = input.selectionStart;
+  const end = input.selectionEnd;
+  const selected = input.value.slice(start, end) || 'text';
+  input.value = input.value.slice(0, start) + char + selected + char + input.value.slice(end);
+  input.focus();
+}
+
+function toggleInputEmoji() {
+  const emojis = ['😊','👍','❤️','🎉','🔥','😂','🙌','💯','🚀','✅','😎','🤔'];
+  const input = document.getElementById('msg-input');
+  // Simple: just append a smiley
+  const picker = document.getElementById('input-emoji-popup') || (() => {
+    const p = document.createElement('div');
+    p.id = 'input-emoji-popup';
+    p.style.cssText = 'position:absolute;bottom:100%;left:0;background:white;border:1px solid #e8e8e8;border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:4px;width:220px;box-shadow:0 4px 15px rgba(0,0,0,0.15);z-index:200';
+    p.innerHTML = emojis.map(e => `<span style="font-size:22px;cursor:pointer;padding:4px;border-radius:4px;" onclick="document.getElementById('msg-input').value+='${e}';document.getElementById('msg-input').focus();this.closest('#input-emoji-popup').remove()">${e}</span>`).join('');
+    document.querySelector('.input-box').appendChild(p);
+    document.addEventListener('click', function f(ev) {
+      if (!p.contains(ev.target)) { p.remove(); document.removeEventListener('click', f); }
+    }, true);
+    return p;
+  })();
+}
+
+function openNewDMModal() {
+  const list = document.getElementById('dm-member-list');
+  const otherUsers = STATE.members.filter(m => m.id !== STATE.user?.id);
+  list.innerHTML = otherUsers.map(m => {
+    const name = m.profile?.display_name || m.username;
+    const color = m.profile?.avatar_color || getAvatarColor(name);
+    return `
+      <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;transition:background 0.1s;"
+           onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background=''"
+           onclick="closeNewDMModal();startDM(${m.id})">
+        <div style="width:36px;height:36px;border-radius:6px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px">
+          ${getInitials(name)}
+        </div>
+        <div>
+          <div style="font-weight:700;font-size:14px">${name}</div>
+          <div style="font-size:12px;color:#616061">@${m.username}</div>
+        </div>
+      </div>
+    `;
+  }).join('') || '<p style="color:#616061;padding:8px;font-size:13px">No other members found.</p>';
+  document.getElementById('new-dm-modal').classList.add('visible');
+}
+
+function closeNewDMModal() {
+  document.getElementById('new-dm-modal').classList.remove('visible');
+}
+
+async function showMembersModal() {
+  const list = document.getElementById('members-list');
+  list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
+  document.getElementById('members-modal').classList.add('visible');
+  try {
+    const room = STATE.activeRoom;
+    if (room?.type !== 'channel') return;
+    const members = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/members/`);
+    list.innerHTML = members.map(m => {
+      const name = m.profile?.display_name || m.username;
+      const color = m.profile?.avatar_color || getAvatarColor(name);
+      const status = m.profile?.status || 'offline';
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
+          <div style="position:relative;">
+            <div style="width:36px;height:36px;border-radius:6px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px">${getInitials(name)}</div>
+            <span style="position:absolute;bottom:-1px;right:-2px;width:10px;height:10px;border-radius:50%;border:2px solid white;background:${status==='active'?'#2bac76':status==='away'?'#ecb22e':status==='dnd'?'#e01e5a':'#ccc'}"></span>
+          </div>
+          <div>
+            <div style="font-weight:700;font-size:14px">${name}</div>
+            <div style="font-size:12px;color:#616061">@${m.username} · ${status}</div>
+          </div>
+          ${m.id !== STATE.user?.id ? `<button class="btn btn-ghost" style="margin-left:auto;font-size:12px" onclick="closeAllModals();startDM(${m.id})">DM</button>` : '<span style="margin-left:auto;font-size:12px;color:#616061;font-weight:700">You</span>'}
+        </div>
+      `;
+    }).join('');
+    document.getElementById('member-count').textContent = `${members.length} members`;
+  } catch (err) {
+    list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
+  }
+}
+
+async function showPinsModal() {
+  const list = document.getElementById('pins-list');
+  list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
+  document.getElementById('pins-modal').classList.add('visible');
+  try {
+    const room = STATE.activeRoom;
+    if (room?.type !== 'channel') { list.innerHTML = '<p>Pins only available in channels.</p>'; return; }
+    const pins = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/pins/`);
+    list.innerHTML = pins.length === 0
+      ? '<p style="color:#616061;font-size:13px;padding:8px">No pinned messages yet.</p>'
+      : pins.map(p => `
+        <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
+          <div style="font-size:12px;color:#616061;margin-bottom:4px">Pinned by ${p.pinned_by}</div>
+          <div style="font-size:14px">${p.message.text}</div>
+          <div style="font-size:11px;color:#868686;margin-top:4px">${formatTime(p.message.created_at)}</div>
+        </div>
+      `).join('');
+  } catch (err) {
+    list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
+  }
+}
+
+function openProfileModal() {
+  const profile = STATE.user?.profile || {};
+  document.getElementById('prof-displayname').value = profile.display_name || STATE.user?.username || '';
+  document.getElementById('prof-status').value = profile.status || 'active';
+  document.getElementById('prof-status-text').value = profile.status_text || '';
+  document.getElementById('prof-bio').value = profile.bio || '';
+  document.getElementById('profile-modal').classList.add('visible');
+}
+
+async function saveProfile() {
+  const data = {
+    display_name: document.getElementById('prof-displayname').value.trim(),
+    status: document.getElementById('prof-status').value,
+    status_text: document.getElementById('prof-status-text').value.trim(),
+    bio: document.getElementById('prof-bio').value.trim(),
+  };
+  try {
+    const updated = await api('/auth/me/', { method: 'PUT', body: data });
+    STATE.user = updated;
+    localStorage.setItem('user', JSON.stringify(updated));
+    document.getElementById('sidebar-username').textContent = updated.profile?.display_name || updated.username;
+    document.getElementById('profile-modal').classList.remove('visible');
+    toast('Profile updated!', 'success');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+async function sendThreadReply() {
+  const input = document.getElementById('thread-input');
+  const text = input.value.trim();
+  if (!text || !STATE.thread) return;
+
+  try {
+    const room = STATE.activeRoom;
+    await api(`/channels/${room.id}/messages/`, {
+      method: 'POST',
+      body: { text, parent: STATE.thread.id }
+    });
+    input.value = '';
+    openThread(STATE.thread.id);
+    toast('Reply sent!', 'success');
+  } catch (err) {
+    toast(err.message, 'error');
+  }
+}
+
+function closeAllModals() {
+  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+}
+
+// Close modals on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) overlay.classList.remove('visible');
+  });
+});
+
+// Init auth on load
+window.addEventListener('DOMContentLoaded', initAuth);
+</script>
+
+</body>
+</html>
