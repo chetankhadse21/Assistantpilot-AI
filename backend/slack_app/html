@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Fitness App Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Fitness App</h2>
+
+  <div id="signup">
+    <h3>Sign Up</h3>
+    <input type="text" id="su_username" placeholder="Username">
+    <input type="password" id="su_password" placeholder="Password">
+    <button onclick="signup()">Sign Up</button>
+  </div>
+
+  <div id="login">
+    <h3>Login</h3>
+    <input type="text" id="li_username" placeholder="Username">
+    <input type="password" id="li_password" placeholder="Password">
+    <button onclick="login()">Login</button>
+  </div>
+
+  <p id="message"></p>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

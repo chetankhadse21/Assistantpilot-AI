@@ -1,346 +1,564 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI pilot  Project</title>
+  <title>Virtual Leader</title>
   <link rel="stylesheet" href="css/style.css">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
 </head>
+
 <body>
 
-<!-- ── AUTH PAGE ──────────────────────────────────────────────────── -->
-<div id="auth-page">
-  <div class="auth-card">
-    <div class="auth-logo">
-      <span class="logo-icon">💬</span>
-      <h1>AI pilot</h1>
-      <p>A messaging platform — powered by AI</p>
-    </div>
-
-    <div class="auth-tabs">
-      <button class="auth-tab active" data-tab="login">Sign In</button>
-      <button class="auth-tab" data-tab="register">Create Account</button>
-    </div>
-
-    <!-- Login Form -->
-    <div id="form-login" class="auth-form active">
-      <div id="login-error" class="auth-error"></div>
-      <div class="field">
-        <label>Username</label>
-        <input id="login-username" type="text" placeholder="your-username" autocomplete="username">
+  <!-- ── AUTH PAGE ──────────────────────────────────────────────────── -->
+  <div id="auth-page">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <span class="logo-icon">💬</span>
+        <h1>Virtual Leader</h1>
+        <p>A messaging platform — powered by AI</p>
       </div>
-      <div class="field">
-        <label>Password</label>
-        <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password">
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-tab="login">Sign In</button>
+        <button class="auth-tab" data-tab="register">Create Account</button>
       </div>
-      <button id="login-btn" class="submit-btn">Sign In</button>
-    </div>
 
-    <!-- Register Form -->
-    <div id="form-register" class="auth-form">
-      <div id="register-error" class="auth-error"></div>
-      <div class="field">
-        <label>Username <span style="color:#e01e5a">*</span></label>
-        <input id="reg-username" type="text" placeholder="john.doe">
+      <!-- Login Form -->
+      <div id="form-login" class="auth-form active">
+        <div id="login-error" class="auth-error"></div>
+        <div class="field">
+          <label>Username</label>
+          <input id="login-username" type="text" placeholder="your-username" autocomplete="username">
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input id="login-password" type="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button id="login-btn" class="submit-btn">Sign In</button>
       </div>
-      <div class="field">
-        <label>Display Name</label>
-        <input id="reg-displayname" type="text" placeholder="John Doe">
+
+      <!-- Register Form -->
+      <div id="form-register" class="auth-form">
+        <div id="register-error" class="auth-error"></div>
+        <div class="field">
+          <label>Username <span style="color:#e01e5a">*</span></label>
+          <input id="reg-username" type="text" placeholder="john.doe">
+        </div>
+        <div class="field">
+          <label>Display Name</label>
+          <input id="reg-displayname" type="text" placeholder="John Doe">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input id="reg-email" type="email" placeholder="john@example.com">
+        </div>
+        <div class="field">
+          <label>Password <span style="color:#e01e5a">*</span></label>
+          <input id="reg-password" type="password" placeholder="Min 6 characters">
+        </div>
+        <button id="register-btn" class="submit-btn">Create Account</button>
       </div>
-      <div class="field">
-        <label>Email</label>
-        <input id="reg-email" type="email" placeholder="john@example.com">
-      </div>
-      <div class="field">
-        <label>Password <span style="color:#e01e5a">*</span></label>
-        <input id="reg-password" type="password" placeholder="Min 6 characters">
-      </div>
-      <button id="register-btn" class="submit-btn">Create Account</button>
-    </div>
 
-    <p style="text-align:center;margin-top:16px;font-size:12px;color:#868686;">
-      Built with Django + spaCy AI &nbsp;·&nbsp; College Project
-    </p>
-  </div>
-</div>
-
-<!-- ── WORKSPACE PAGE ────────────────────────────────────────────── -->
-<div id="workspace-page" style="display:none">
-  <div class="workspace-card">
-    <h2>Your Workspaces</h2>
-    <p>Choose a workspace to continue, or create a new one.</p>
-
-    <div id="workspace-list" class="workspace-list"></div>
-
-    <hr style="border:none;border-top:1px solid #e8e8e8;margin:16px 0;">
-    <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">Create a New Workspace</h3>
-    <div style="display:flex;gap:8px;">
-      <input id="ws-name" type="text" placeholder="My Workspace"
-             style="flex:1;padding:8px 12px;border:1px solid #e8e8e8;border-radius:4px;font-size:14px;outline:none;"
-             onkeydown="if(event.key==='Enter') createWorkspace()">
-      <button class="btn btn-primary" onclick="createWorkspace()">Create</button>
-    </div>
-
-    <div style="margin-top:20px;text-align:center;">
-      <button class="btn btn-ghost" onclick="logout()" style="font-size:13px;">Sign Out</button>
+      <p style="text-align:center;margin-top:16px;font-size:12px;color:#868686;">
+        Built with Django + spaCy AI &nbsp;·&nbsp; College Project
+      </p>
     </div>
   </div>
-</div>
 
-<!-- ── MAIN APP ───────────────────────────────────────────────────── -->
-<div id="app">
+  <!-- ── WORKSPACE PAGE ────────────────────────────────────────────── -->
+  <div id="workspace-page" style="display:none">
+    <div class="workspace-card">
+      <h2>Your Workspaces</h2>
+      <p>Choose a workspace to continue, or create a new one.</p>
 
-  <!-- App Header -->
-  <div class="app-header">
-    <span class="workspace-name" id="workspace-title">Workspace</span>
-    <div class="header-search">
-      <input id="search-input" type="text" placeholder="🔍  Search with AI...">
-      <span class="search-icon">⌘K</span>
+      <div id="workspace-list" class="workspace-list"></div>
+
+      <hr style="border:none;border-top:1px solid #e8e8e8;margin:16px 0;">
+      <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;">Create a New Workspace</h3>
+      <div style="display:flex;gap:8px;">
+        <input id="ws-name" type="text" placeholder="My Workspace"
+          style="flex:1;padding:8px 12px;border:1px solid #e8e8e8;border-radius:4px;font-size:14px;outline:none;"
+          onkeydown="if(event.key==='Enter') createWorkspace()">
+        <button class="btn btn-primary" onclick="createWorkspace()">Create</button>
+      </div>
+
+      <div style="margin-top:20px;text-align:center;">
+        <button class="btn btn-ghost" onclick="logout()" style="font-size:13px;">Sign Out</button>
+      </div>
     </div>
-    <div style="position:absolute;right:16px;display:flex;align-items:center;gap:10px;">
-      <span id="ws-status" style="font-size:12px;color:#2bac76">🟢 Live</span>
-    </div>
-    <!-- Search Results Dropdown -->
-    <div id="search-results" class="search-results"></div>
   </div>
 
-  <!-- App Body -->
-  <div class="app-body">
+  <!-- ── MAIN APP ───────────────────────────────────────────────────── -->
+  <div id="app">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
-
-      <!-- Channels -->
-      <div class="sidebar-section">
-        <div class="sidebar-section-header">
-          <span>
-            <span class="sidebar-chevron open">▼</span>
-            Channels
-          </span>
-          <button class="add-btn" onclick="openCreateChannelModal()" title="Add a channel">+</button>
-        </div>
-        <div id="channel-list"></div>
+    <!-- App Header -->
+    <div class="app-header">
+      <span class="workspace-name" id="workspace-title">Workspace</span>
+      <div class="header-search">
+        <input id="search-input" type="text" placeholder="🔍  Search with AI...">
+        <span class="search-icon">⌘K</span>
       </div>
-
-      <!-- Direct Messages -->
-      <div class="sidebar-section">
-        <div class="sidebar-section-header">
-          <span>
-            <span class="sidebar-chevron open">▼</span>
-            Direct Messages
-          </span>
-          <button class="add-btn" onclick="openNewDMModal()" title="New direct message">+</button>
-        </div>
-        <div id="dm-list"></div>
+      <div style="position:absolute;right:16px;display:flex;align-items:center;gap:10px;">
+        <span id="ws-status" style="font-size:12px;color:#2bac76">🟢 Live</span>
       </div>
-
-      <!-- User Area -->
-      <div class="sidebar-user" onclick="openProfileModal()">
-        <div class="sidebar-user-avatar" id="sidebar-avatar" style="background:#4A154B">U</div>
-        <div class="sidebar-user-info">
-          <div class="sidebar-user-name" id="sidebar-username">User</div>
-          <div class="sidebar-user-status">Active</div>
-        </div>
-        <span style="color:rgba(255,255,255,0.5);font-size:12px;">⚙️</span>
-      </div>
+      <!-- Search Results Dropdown -->
+      <div id="search-results" class="search-results"></div>
     </div>
 
-    <!-- Main Content -->
-    <div class="main-content">
+    <!-- App Body -->
+    <div class="app-body">
 
-      <!-- Channel Header -->
-      <div class="channel-header">
-        <h2 id="channel-name"># general</h2>
-        <span class="description" id="channel-description"></span>
-        <div class="header-actions">
-          <span id="ai-summary-badge" style="display:none;font-size:11px;background:#f5f0fc;color:#7c3085;padding:3px 8px;border-radius:10px;font-weight:700;"></span>
-          <button class="header-btn" onclick="showMembersModal()">👥 <span class="member-count" id="member-count">Members</span></button>
-          <button class="header-btn" onclick="showPinsModal()">📌 Pins</button>
-          <button class="header-btn" onclick="logout()">🚪 Sign Out</button>
-        </div>
-      </div>
+      <!-- Sidebar -->
+      <div class="sidebar">
 
-      <!-- Messages Area -->
-      <div class="messages-area" id="messages-area">
-        <div id="messages-container"></div>
-      </div>
-
-      <!-- Typing Indicator -->
-      <div class="typing-indicator" id="typing-indicator"></div>
-
-      <!-- Message Input -->
-      <div class="input-area">
-        <div class="input-box" style="position:relative;">
-          <div id="mention-dropdown" class="mention-dropdown"></div>
-          <div class="input-toolbar">
-            <button class="input-tool" title="Bold" onclick="wrapText('*')">𝐁</button>
-            <button class="input-tool" title="Code" onclick="wrapText('`')">⌨</button>
-            <button class="input-tool" title="Emoji" onclick="toggleInputEmoji()">😊</button>
-            <button class="input-tool" title="Attach file">📎</button>
+        <!-- Channels -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <span>
+              <span class="sidebar-chevron open">▼</span>
+              Project
+            </span>
+            <button class="add-btn" id="create-channel-btn" onclick="openCreateChannelModal()"
+              title="Add a channel">+</button>
           </div>
-          <textarea id="msg-input" placeholder="Message #general" id="msg-placeholder" rows="1"
-                    oninput="autoResize(this)"></textarea>
-          <div class="input-bottom">
-            <span class="input-hint">⏎ to send · ⇧⏎ for new line · @ to mention</span>
-            <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
-              Send ➤
-            </button>
+          <div id="channel-list"></div>
+        </div>
+
+        <!-- Direct Messages -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <span>
+              <span class="sidebar-chevron open">▼</span>
+              Direct Messages
+            </span>
+            <button class="add-btn" onclick="openNewDMModal()" title="New direct message">+</button>
+          </div>
+          <div id="dm-list"></div>
+        </div>
+
+        <!-- Workspaces -->
+        <div class="sidebar-section">
+          <div class="sidebar-section-header">
+            <span>
+              <span class="sidebar-chevron open">▼</span>
+              Workspaces
+            </span>
+            <button class="add-btn" onclick="showWorkspacePage()" title="Manage workspaces">+</button>
+          </div>
+          <div id="sidebar-workspace-list"></div>
+        </div>
+
+        <!-- User Area -->
+        <div class="sidebar-user" onclick="openProfileModal()">
+          <div class="sidebar-user-avatar" id="sidebar-avatar" style="background:#4A154B">U</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="sidebar-username">User</div>
+            <div class="sidebar-user-status">Active</div>
+          </div>
+          <span style="color:rgba(255,255,255,0.5);font-size:12px;">⚙️</span>
+        </div>
+        <div id="github-link-row" style="display:none;padding:6px 12px;border-top:1px solid rgba(255,255,255,0.08);">
+          <button onclick="openGithubModal()"
+            style="width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:5px;padding:5px 8px;cursor:pointer;font-size:12px;text-align:left;">
+            <span id="github-link-label">🐙 Link GitHub Repo</span>
+          </button>
+        </div>
+      </div>
+
+
+      <!-- Main Content -->
+      <div class="main-content">
+
+        <!-- Channel Header -->
+        <div class="channel-header">
+          <h2 id="channel-name"># general</h2>
+          <span class="description" id="channel-description"></span>
+          <div class="header-actions">
+            <span id="ai-summary-badge"
+              style="display:none;font-size:11px;background:#f5f0fc;color:#7c3085;padding:3px 8px;border-radius:10px;font-weight:700;"></span>
+            <button class="header-btn" onclick="showDashboardModal()">📊 Dashboard</button>
+            <button class="header-btn" onclick="showMembersModal()">👥 <span class="member-count"
+                id="member-count">Members</span></button>
+            <button class="header-btn" onclick="showPinsModal()">📌 Pins</button>
+            <button class="header-btn" onclick="showNotesModal()">📝 Notes</button>
+            <button class="header-btn" onclick="logout()">🚪 Sign Out</button>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Thread Panel -->
-    <div class="thread-panel" id="thread-panel">
-      <div class="thread-header">
-        <h3>Thread</h3>
-        <button class="thread-close" onclick="closeThread()">✕</button>
-      </div>
-      <div class="thread-messages" id="thread-messages"></div>
-      <div class="thread-input">
-        <div class="input-box">
-          <textarea id="thread-input" placeholder="Reply in thread…" rows="2"
-                    style="width:100%;border:none;outline:none;padding:8px 12px;font-family:Lato,sans-serif;font-size:14px;resize:none;"></textarea>
-          <div style="display:flex;justify-content:flex-end;padding:4px 8px 6px;">
-            <button class="send-btn" onclick="sendThreadReply()">Reply ➤</button>
+        <!-- AI Project Milestones & Progress Banner -->
+        <div id="ai-project-banner" class="ai-project-banner" style="display:none;">
+          <div class="ai-project-banner-header">
+            <div class="ai-project-title-row">
+              <h3>🎯 AI Project Milestones Tracker</h3>
+            </div>
+            <div class="ai-project-progress-bar-container">
+              <div class="ai-project-progress-bar-bg">
+                <div id="ai-project-progress-bar-fill" class="ai-project-progress-bar-fill"></div>
+              </div>
+              <span id="ai-project-progress-pct" class="ai-project-progress-pct">0%</span>
+            </div>
+          </div>
+          <div id="ai-project-team-row" class="ai-project-qualified-team">
+            <span>👥 Recommended Team:</span>
+            <div id="ai-project-team-chips" style="display:inline-flex; gap:4px; flex-wrap:wrap;"></div>
+          </div>
+          <div id="ai-project-milestones-list" class="ai-project-milestones-list">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+        <!-- Messages Area -->
+        <div class="messages-area" id="messages-area">
+          <div id="messages-container"></div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div class="typing-indicator" id="typing-indicator"></div>
+
+        <!-- Message Input -->
+        <div class="input-area">
+          <div class="input-box" style="position:relative;">
+            <div id="mention-dropdown" class="mention-dropdown"></div>
+            <div class="input-toolbar">
+              <button class="input-tool" title="Bold" onclick="wrapText('*')">𝐁</button>
+              <button class="input-tool" title="Code" onclick="wrapText('`')">⌨</button>
+              <button class="input-tool" title="Emoji" onclick="toggleInputEmoji(event)">😊</button>
+              <button class="input-tool" title="Attach file"
+                onclick="document.getElementById('file-upload-input').click()">📎</button>
+              <button class="input-tool" id="mic-btn" title="Voice Input (Speech-to-Text)"
+                onclick="toggleVoiceInput(event)">🎤</button>
+            </div>
+            <input type="file" id="file-upload-input" style="display:none;" onchange="handleFileUpload(event)">
+            <div id="file-preview"
+              style="display:none; padding: 4px 8px; font-size: 12px; color: #616061; background: #f0f0f0; border-radius: 4px; margin-bottom: 4px; width: max-content; margin-top: 4px; margin-left: 8px;">
+              <span id="file-preview-name"></span>
+              <span style="cursor:pointer; margin-left: 8px; color: #e01e5a; font-weight: bold;"
+                onclick="clearFilePreview()">✕</span>
+            </div>
+
+            <!-- Voice Recording Premium Overlay -->
+            <div id="voice-overlay" class="voice-overlay" style="display: none;">
+              <div class="voice-wave-container">
+                <span class="voice-wave-bar bar-1"></span>
+                <span class="voice-wave-bar bar-2"></span>
+                <span class="voice-wave-bar bar-3"></span>
+                <span class="voice-wave-bar bar-4"></span>
+                <span class="voice-wave-bar bar-5"></span>
+              </div>
+              <span id="voice-status-text" class="voice-status-text">Listening... Speak now</span>
+              <div class="voice-actions">
+                <button type="button" class="voice-action-btn stop-btn" onclick="stopSpeechRecognition(event)"
+                  title="Stop and Send">✅ Done</button>
+                <button type="button" class="voice-action-btn cancel-btn" onclick="cancelSpeechRecognition(event)"
+                  title="Cancel">✕ Cancel</button>
+              </div>
+            </div>
+
+            <textarea id="msg-input" placeholder="Message #general" id="msg-placeholder" rows="1"
+              oninput="autoResize(this)"></textarea>
+            <div class="input-bottom">
+              <span class="input-hint">⏎ to send · ⇧⏎ for new line · @ to mention</span>
+              <button class="send-btn" id="send-btn" onclick="sendMessage()" disabled>
+                Send ➤
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Thread Panel -->
+      <div class="thread-panel" id="thread-panel">
+        <div class="thread-header">
+          <h3>Thread</h3>
+          <button class="thread-close" onclick="closeThread()">✕</button>
+        </div>
+        <div class="thread-messages" id="thread-messages"></div>
+        <div class="thread-input">
+          <div class="input-box">
+            <textarea id="thread-input" placeholder="Reply in thread…" rows="2"
+              style="width:100%;border:none;outline:none;padding:8px 12px;font-family:Lato,sans-serif;font-size:14px;resize:none;"></textarea>
+            <div style="display:flex;justify-content:flex-end;padding:4px 8px 6px;">
+              <button class="send-btn" onclick="sendThreadReply()">Reply ➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── Calendar Widget ────────────────────────────────────────────── -->
+    <div class="calendar-widget minimized" id="calendar-widget">
+      <div class="calendar-header" onclick="toggleCalendar()">
+        <h3>📅 Schedule</h3>
+        <span class="calendar-toggle" id="cal-toggle-icon">▲</span>
+      </div>
+      <div class="calendar-body">
+        <div class="calendar-controls">
+          <button onclick="changeMonth(-1)">◀</button>
+          <div class="calendar-month-label" id="cal-month-label">May 2026</div>
+          <button onclick="changeMonth(1)">▶</button>
+        </div>
+        <div class="calendar-grid">
+          <div class="calendar-day-header">Su</div>
+          <div class="calendar-day-header">Mo</div>
+          <div class="calendar-day-header">Tu</div>
+          <div class="calendar-day-header">We</div>
+          <div class="calendar-day-header">Th</div>
+          <div class="calendar-day-header">Fr</div>
+          <div class="calendar-day-header">Sa</div>
+        </div>
+        <div class="calendar-grid" id="cal-grid"></div>
+        <div class="calendar-event-list" id="cal-event-list"></div>
+      </div>
     </div>
 
   </div>
-</div>
 
-<!-- ── MODALS ──────────────────────────────────────────────────────── -->
+  <!-- ── MODALS ──────────────────────────────────────────────────────── -->
 
-<!-- Create Channel Modal -->
-<div class="modal-overlay" id="create-channel-modal">
-  <div class="modal">
-    <h2>Create a Channel</h2>
-    <label>Channel Name <span style="color:#e01e5a">*</span></label>
-    <input id="new-channel-name" type="text" placeholder="e.g. project-updates"
-           onkeydown="if(event.key==='Enter') createChannel()">
-    <label>Description</label>
-    <textarea id="new-channel-desc" placeholder="What's this channel about?"></textarea>
-    <label>Type</label>
-    <select id="new-channel-type">
-      <option value="public">🌐 Public — Anyone in the workspace</option>
-      <option value="private">🔒 Private — Invite only</option>
-    </select>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeCreateChannelModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="createChannel()">Create Channel</button>
+  <!-- Create Channel Modal -->
+  <div class="modal-overlay" id="create-channel-modal">
+    <div class="modal">
+      <h2>Create a Channel</h2>
+      <label>Channel Name <span style="color:#e01e5a">*</span></label>
+      <input id="new-channel-name" type="text" placeholder="e.g. project-updates"
+        onkeydown="if(event.key==='Enter') createChannel()">
+      <label>Description</label>
+      <textarea id="new-channel-desc" placeholder="What's this channel about?"></textarea>
+      <label>Type</label>
+      <select id="new-channel-type">
+        <option value="public">🌐 Public — Anyone in the workspace</option>
+        <option value="private">🔒 Private — Invite only</option>
+      </select>
+
+      <div style="display:flex; align-items:center; gap:8px; margin:12px 0;">
+        <input id="new-channel-is-project" type="checkbox" style="width:auto; cursor:pointer;">
+        <label for="new-channel-is-project" style="margin:0; cursor:pointer; font-weight:700; font-size:13px;">🤖 AI
+          Project Tracking Channel</label>
+      </div>
+
+      <label style="margin-top:12px; display:block;">Select Team Members (HR Metrics)</label>
+      <div id="channel-member-selection"
+        style="max-height:180px; overflow-y:auto; border:1px solid var(--border); border-radius:4px; padding:4px; margin-bottom:12px; font-size:13px;">
+        <!-- Populated via JS -->
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeCreateChannelModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="createChannel()">Create Channel</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- New DM Modal -->
-<div class="modal-overlay" id="new-dm-modal">
-  <div class="modal">
-    <h2>New Direct Message</h2>
-    <label>Select a team member</label>
-    <div id="dm-member-list" style="max-height:300px;overflow-y:auto;margin-top:8px;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="closeNewDMModal()">Cancel</button>
+  <!-- GitHub Repo Modal -->
+  <div class="modal-overlay" id="github-modal">
+    <div class="modal">
+      <h2>🐙 Link GitHub Repository</h2>
+      <p style="font-size:13px;color:#616061;margin-bottom:12px;">Enter the repository in
+        <strong>owner/repo-name</strong> format. The AI will use this to answer project progress questions.</p>
+      <label>Repository <span style="color:#e01e5a">*</span></label>
+      <input id="github-repo-input" type="text" placeholder="e.g. chetankhadse21/Assistantpilot-AI"
+        onkeydown="if(event.key==='Enter') saveGithubRepo()">
+      <div id="github-modal-status" style="font-size:12px;margin-top:8px;color:#616061;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeGithubModal()">Cancel</button>
+        <button class="btn btn-primary" onclick="saveGithubRepo()">Link Repo</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Members Modal -->
-<div class="modal-overlay" id="members-modal">
-  <div class="modal">
-    <h2>Channel Members</h2>
-    <div id="members-list" style="max-height:350px;overflow-y:auto;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="document.getElementById('members-modal').classList.remove('visible')">Close</button>
+  <!-- New DM Modal -->
+  <div class="modal-overlay" id="new-dm-modal">
+    <div class="modal">
+      <h2>New Direct Message</h2>
+      <label>Select a team member</label>
+      <div id="dm-member-list" style="max-height:300px;overflow-y:auto;margin-top:8px;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" onclick="closeNewDMModal()">Cancel</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Pins Modal -->
-<div class="modal-overlay" id="pins-modal">
-  <div class="modal">
-    <h2>📌 Pinned Messages</h2>
-    <div id="pins-list" style="max-height:350px;overflow-y:auto;"></div>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="document.getElementById('pins-modal').classList.remove('visible')">Close</button>
+  <!-- Members Modal -->
+  <div class="modal-overlay" id="members-modal">
+    <div class="modal">
+      <h2>Channel Members</h2>
+      <div id="members-list" style="max-height:350px;overflow-y:auto;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost"
+          onclick="document.getElementById('members-modal').classList.remove('visible')">Close</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Profile Modal -->
-<div class="modal-overlay" id="profile-modal">
-  <div class="modal">
-    <h2>Your Profile</h2>
-    <label>Display Name</label>
-    <input id="prof-displayname" type="text" placeholder="How you appear to teammates">
-    <label>Status</label>
-    <select id="prof-status">
-      <option value="active">🟢 Active</option>
-      <option value="away">🟡 Away</option>
-      <option value="dnd">🔴 Do Not Disturb</option>
-      <option value="offline">⚫ Offline</option>
-    </select>
-    <label>Status Message</label>
-    <input id="prof-status-text" type="text" placeholder="What are you up to?">
-    <label>Bio</label>
-    <textarea id="prof-bio" placeholder="Tell your team about yourself"></textarea>
-    <div class="modal-actions">
-      <button class="btn btn-ghost" onclick="document.getElementById('profile-modal').classList.remove('visible')">Cancel</button>
-      <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+  <!-- Pins Modal -->
+  <div class="modal-overlay" id="pins-modal">
+    <div class="modal">
+      <h2>📌 Pinned Messages</h2>
+      <div id="pins-list" style="max-height:350px;overflow-y:auto;"></div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost"
+          onclick="document.getElementById('pins-modal').classList.remove('visible')">Close</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ── TOAST CONTAINER ──────────────────────────────────────────────── -->
-<div class="toast-container" id="toast-container"></div>
+  <!-- Notes Modal -->
+  <div class="modal-overlay" id="notes-modal">
+    <div class="modal">
+      <h2>📝 Channel Notes</h2>
+      <textarea id="channel-notes-text" rows="10"
+        style="width:100%; border:1px solid #e8e8e8; border-radius:4px; padding:8px; font-family:inherit; resize:vertical; outline:none;"
+        placeholder="Jot down important channel notes here..."></textarea>
+      <div class="modal-actions" style="margin-top:12px;">
+        <button class="btn btn-ghost"
+          onclick="document.getElementById('notes-modal').classList.remove('visible')">Close</button>
+        <button class="btn btn-primary" onclick="saveChannelNotes()">Save Notes</button>
+      </div>
+    </div>
+  </div>
 
-<!-- ── SCRIPTS ──────────────────────────────────────────────────────── -->
-<script src="js/api.js"></script>
-<script src="js/auth.js"></script>
-<script src="js/app.js"></script>
-<script>
-// Extra utility handlers
+  <!-- Dashboard Modal -->
+  <div class="modal-overlay" id="dashboard-modal">
+    <div class="modal" style="max-width: 800px; width: 90%;">
+      <div
+        style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 20px; border-bottom:1px solid #e8e8e8; padding-bottom:10px;">
+        <h2 style="margin:0; display:flex; align-items:center; gap:8px;">📊 Workspace Dashboard</h2>
+        <button class="btn btn-ghost" onclick="closeDashboardModal()"
+          style="font-size: 20px; padding: 4px 8px; border:none; line-height:1;">✕</button>
+      </div>
 
-function autoResize(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 200) + 'px';
-}
+      <div id="dashboard-content" style="max-height: 500px; overflow-y: auto; padding-right: 4px;">
+        <!-- Plotted dynamically via JavaScript -->
+      </div>
+    </div>
+  </div>
 
-function wrapText(char) {
-  const input = document.getElementById('msg-input');
-  const start = input.selectionStart;
-  const end = input.selectionEnd;
-  const selected = input.value.slice(start, end) || 'text';
-  input.value = input.value.slice(0, start) + char + selected + char + input.value.slice(end);
-  input.focus();
-}
+  <!-- Profile Modal -->
+  <div class="modal-overlay" id="profile-modal">
+    <div class="modal">
+      <h2>Your Profile</h2>
+      <label>Display Name</label>
+      <input id="prof-displayname" type="text" placeholder="How you appear to teammates">
+      <label>Status</label>
+      <select id="prof-status">
+        <option value="active">🟢 Active</option>
+        <option value="away">🟡 Away</option>
+        <option value="dnd">🔴 Do Not Disturb</option>
+        <option value="offline">⚫ Offline</option>
+      </select>
+      <label>Status Message</label>
+      <input id="prof-status-text" type="text" placeholder="What are you up to?">
+      <label>Bio</label>
+      <textarea id="prof-bio" placeholder="Tell your team about yourself"></textarea>
 
-function toggleInputEmoji() {
-  const emojis = ['😊','👍','❤️','🎉','🔥','😂','🙌','💯','🚀','✅','😎','🤔'];
-  const input = document.getElementById('msg-input');
-  // Simple: just append a smiley
-  const picker = document.getElementById('input-emoji-popup') || (() => {
-    const p = document.createElement('div');
-    p.id = 'input-emoji-popup';
-    p.style.cssText = 'position:absolute;bottom:100%;left:0;background:white;border:1px solid #e8e8e8;border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:4px;width:220px;box-shadow:0 4px 15px rgba(0,0,0,0.15);z-index:200';
-    p.innerHTML = emojis.map(e => `<span style="font-size:22px;cursor:pointer;padding:4px;border-radius:4px;" onclick="document.getElementById('msg-input').value+='${e}';document.getElementById('msg-input').focus();this.closest('#input-emoji-popup').remove()">${e}</span>`).join('');
-    document.querySelector('.input-box').appendChild(p);
-    document.addEventListener('click', function f(ev) {
-      if (!p.contains(ev.target)) { p.remove(); document.removeEventListener('click', f); }
-    }, true);
-    return p;
-  })();
-}
+      <label>Employee Level</label>
+      <select id="prof-level">
+        <option value="beginner">Beginner</option>
+        <option value="professional">Professional</option>
+        <option value="expert">Expert</option>
+      </select>
 
-function openNewDMModal() {
-  const list = document.getElementById('dm-member-list');
-  const otherUsers = STATE.members.filter(m => m.id !== STATE.user?.id);
-  list.innerHTML = otherUsers.map(m => {
-    const name = m.profile?.display_name || m.username;
-    const color = m.profile?.avatar_color || getAvatarColor(name);
-    return `
+      <label>Skill Strength</label>
+      <input id="prof-skill" type="text" placeholder="e.g. backend, frontend... ">
+
+      <label>Performance Stats</label>
+      <div
+        style="font-size:13px; color:#616061; background:#f4f4f4; padding:8px; border-radius:4px; margin-bottom:12px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b>Efficiency:</b> <span
+            id="prof-efficiency">0</span>%</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b>Reliability:</b> <span
+            id="prof-reliability">0</span>%</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:4px;"><b>Speed:</b> <span><span
+              id="prof-speed">0</span>h / task</span></div>
+        <div style="display:flex; justify-content:space-between;"><b>Tasks:</b> <span><span id="prof-tasks">0</span> /
+            <span id="prof-tasks-assigned">0</span></span></div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-ghost"
+          onclick="document.getElementById('profile-modal').classList.remove('visible')">Cancel</button>
+        <button class="btn btn-primary" onclick="saveProfile()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST CONTAINER ──────────────────────────────────────────────── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ── SCRIPTS ──────────────────────────────────────────────────────── -->
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Extra utility handlers
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 200) + 'px';
+    }
+
+    function wrapText(char) {
+      const input = document.getElementById('msg-input');
+      const start = input.selectionStart;
+      const end = input.selectionEnd;
+      const selected = input.value.slice(start, end) || 'text';
+      input.value = input.value.slice(0, start) + char + selected + char + input.value.slice(end);
+      input.focus();
+    }
+
+    function toggleInputEmoji(ev) {
+      if (ev) ev.stopPropagation();
+      const emojis = ['😊', '👍', '❤️', '🎉', '🔥', '😂', '🙌', '💯', '🚀', '✅', '😎', '🤔'];
+      const input = document.getElementById('msg-input');
+
+      const existing = document.getElementById('input-emoji-popup');
+      if (existing) { existing.remove(); return; }
+
+      const p = document.createElement('div');
+      p.id = 'input-emoji-popup';
+      p.style.cssText = 'position:absolute;bottom:100%;left:20px;margin-bottom:8px;background:white;border:1px solid #e8e8e8;border-radius:8px;padding:8px;display:flex;flex-wrap:wrap;gap:4px;width:220px;box-shadow:0 4px 15px rgba(0,0,0,0.15);z-index:200';
+      p.innerHTML = emojis.map(e => `<span style="font-size:22px;cursor:pointer;padding:4px;border-radius:4px;" onclick="document.getElementById('msg-input').value+='${e}';document.getElementById('msg-input').focus();this.closest('#input-emoji-popup').remove();document.getElementById('send-btn').disabled=false;">${e}</span>`).join('');
+
+      const inputArea = document.querySelector('.input-area');
+      inputArea.style.position = 'relative';
+      inputArea.appendChild(p);
+
+      setTimeout(() => {
+        document.addEventListener('click', function f(e) {
+          if (!p.contains(e.target)) { p.remove(); document.removeEventListener('click', f); }
+        });
+      }, 10);
+    }
+
+    let selectedFile = null;
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        selectedFile = file;
+        document.getElementById('file-preview').style.display = 'block';
+        document.getElementById('file-preview-name').textContent = file.name;
+        document.getElementById('send-btn').disabled = false;
+      }
+    }
+
+    function clearFilePreview() {
+      selectedFile = null;
+      document.getElementById('file-upload-input').value = '';
+      document.getElementById('file-preview').style.display = 'none';
+      const text = document.getElementById('msg-input').value.trim();
+      document.getElementById('send-btn').disabled = !text;
+    }
+
+    function openNewDMModal() {
+      const list = document.getElementById('dm-member-list');
+      const otherUsers = STATE.members.filter(m => m.id !== STATE.user?.id);
+      list.innerHTML = otherUsers.map(m => {
+        const name = m.profile?.display_name || m.username;
+        const color = m.profile?.avatar_color || getAvatarColor(name);
+        return `
       <div style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:6px;cursor:pointer;transition:background 0.1s;"
            onmouseover="this.style.background='#f8f8f8'" onmouseout="this.style.background=''"
            onclick="closeNewDMModal();startDM(${m.id})">
@@ -353,129 +571,533 @@ function openNewDMModal() {
         </div>
       </div>
     `;
-  }).join('') || '<p style="color:#616061;padding:8px;font-size:13px">No other members found.</p>';
-  document.getElementById('new-dm-modal').classList.add('visible');
-}
+      }).join('') || '<p style="color:#616061;padding:8px;font-size:13px">No other members found.</p>';
+      document.getElementById('new-dm-modal').classList.add('visible');
+    }
 
-function closeNewDMModal() {
-  document.getElementById('new-dm-modal').classList.remove('visible');
-}
+    function closeNewDMModal() {
+      document.getElementById('new-dm-modal').classList.remove('visible');
+    }
 
-async function showMembersModal() {
-  const list = document.getElementById('members-list');
-  list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
-  document.getElementById('members-modal').classList.add('visible');
-  try {
-    const room = STATE.activeRoom;
-    if (room?.type !== 'channel') return;
-    const members = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/members/`);
-    list.innerHTML = members.map(m => {
-      const name = m.profile?.display_name || m.username;
-      const color = m.profile?.avatar_color || getAvatarColor(name);
-      const status = m.profile?.status || 'offline';
-      return `
+    async function showMembersModal() {
+      const list = document.getElementById('members-list');
+      list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
+      document.getElementById('members-modal').classList.add('visible');
+      try {
+        const room = STATE.activeRoom;
+        if (room?.type !== 'channel') return;
+        const members = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/members/`);
+        list.innerHTML = members.map(m => {
+          const name = m.profile?.display_name || m.username;
+          const color = m.profile?.avatar_color || getAvatarColor(name);
+          const status = m.profile?.status || 'offline';
+          return `
         <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0;">
           <div style="position:relative;">
             <div style="width:36px;height:36px;border-radius:6px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:14px">${getInitials(name)}</div>
-            <span style="position:absolute;bottom:-1px;right:-2px;width:10px;height:10px;border-radius:50%;border:2px solid white;background:${status==='active'?'#2bac76':status==='away'?'#ecb22e':status==='dnd'?'#e01e5a':'#ccc'}"></span>
+            <span style="position:absolute;bottom:-1px;right:-2px;width:10px;height:10px;border-radius:50%;border:2px solid white;background:${status === 'active' ? '#2bac76' : status === 'away' ? '#ecb22e' : status === 'dnd' ? '#e01e5a' : '#ccc'}"></span>
           </div>
           <div>
             <div style="font-weight:700;font-size:14px">${name}</div>
             <div style="font-size:12px;color:#616061">@${m.username} · ${status}</div>
           </div>
-          ${m.id !== STATE.user?.id ? `<button class="btn btn-ghost" style="margin-left:auto;font-size:12px" onclick="closeAllModals();startDM(${m.id})">DM</button>` : '<span style="margin-left:auto;font-size:12px;color:#616061;font-weight:700">You</span>'}
+          <div style="margin-left:auto; display:flex; align-items:center; gap:8px;">
+            ${m.id !== STATE.user?.id ? `<button class="btn btn-ghost" style="font-size:12px" onclick="closeAllModals();startDM(${m.id})">DM</button>` : '<span style="font-size:12px;color:#616061;font-weight:700;margin-right:4px;">You</span>'}
+            ${(STATE.workspace?.my_role === 'admin' || m.id === STATE.user?.id) ? `<button class="btn btn-ghost" style="font-size:12px; color:#e01e5a;" onclick="removeChannelMember(${m.id}, '${name}')">${m.id === STATE.user?.id ? 'Leave' : 'Remove'}</button>` : ''}
+          </div>
         </div>
       `;
-    }).join('');
-    document.getElementById('member-count').textContent = `${members.length} members`;
-  } catch (err) {
-    list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
-  }
-}
+        }).join('');
+        document.getElementById('member-count').textContent = `${members.length} members`;
+      } catch (err) {
+        list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
+      }
+    }
 
-async function showPinsModal() {
-  const list = document.getElementById('pins-list');
-  list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
-  document.getElementById('pins-modal').classList.add('visible');
-  try {
-    const room = STATE.activeRoom;
-    if (room?.type !== 'channel') { list.innerHTML = '<p>Pins only available in channels.</p>'; return; }
-    const pins = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/pins/`);
-    list.innerHTML = pins.length === 0
-      ? '<p style="color:#616061;font-size:13px;padding:8px">No pinned messages yet.</p>'
-      : pins.map(p => `
-        <div style="padding:10px 0;border-bottom:1px solid #f0f0f0;">
-          <div style="font-size:12px;color:#616061;margin-bottom:4px">Pinned by ${p.pinned_by}</div>
-          <div style="font-size:14px">${p.message.text}</div>
-          <div style="font-size:11px;color:#868686;margin-top:4px">${formatTime(p.message.created_at)}</div>
+    async function removeChannelMember(userId, name) {
+      const isMe = userId === STATE.user?.id;
+      const confirmMsg = isMe ? 'Are you sure you want to leave this channel?' : `Are you sure you want to remove ${name} from this channel?`;
+      if (!confirm(confirmMsg)) return;
+
+      try {
+        const room = STATE.activeRoom;
+        if (room?.type !== 'channel') return;
+        await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/remove-member/`, {
+          method: 'POST',
+          body: { user_id: userId }
+        });
+        toast(isMe ? 'You left the channel' : `${name} removed from channel`, 'success');
+
+        if (isMe) {
+          document.getElementById('members-modal').classList.remove('visible');
+          await loadChannels();
+        } else {
+          showMembersModal();
+        }
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    }
+
+    async function showPinsModal() {
+      const list = document.getElementById('pins-list');
+      list.innerHTML = '<p style="color:#616061;font-size:13px;padding:8px">Loading...</p>';
+      document.getElementById('pins-modal').classList.add('visible');
+      try {
+        const room = STATE.activeRoom;
+        if (room?.type !== 'channel') { list.innerHTML = '<p>Pins only available in channels.</p>'; return; }
+        const pins = await api(`/workspaces/${STATE.workspace.id}/channels/${room.id}/pins/`);
+        list.innerHTML = pins.length === 0
+          ? '<p style="color:#616061;font-size:13px;padding:8px">No pinned messages yet.</p>'
+          : pins.map(p => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid #f0f0f0;">
+          <div style="flex:1; padding-right:12px;">
+            <div style="font-size:12px;color:#616061;margin-bottom:4px">Pinned by ${p.pinned_by}</div>
+            <div style="font-size:14px">${p.message.text}</div>
+            <div style="font-size:11px;color:#868686;margin-top:4px">${formatTime(p.message.created_at)}</div>
+          </div>
+          <button class="btn btn-ghost" style="color:#e01e5a; font-size:12px; flex-shrink:0;" onclick="unpinMessage(${p.message.id})">✕ Unpin</button>
         </div>
       `).join('');
-  } catch (err) {
-    list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
-  }
-}
+      } catch (err) {
+        list.innerHTML = `<p style="color:#e01e5a;font-size:13px">${err.message}</p>`;
+      }
+    }
 
-function openProfileModal() {
-  const profile = STATE.user?.profile || {};
-  document.getElementById('prof-displayname').value = profile.display_name || STATE.user?.username || '';
-  document.getElementById('prof-status').value = profile.status || 'active';
-  document.getElementById('prof-status-text').value = profile.status_text || '';
-  document.getElementById('prof-bio').value = profile.bio || '';
-  document.getElementById('profile-modal').classList.add('visible');
-}
+    function openProfileModal() {
+      const profile = STATE.user?.profile || {};
+      document.getElementById('prof-displayname').value = profile.display_name || STATE.user?.username || '';
+      document.getElementById('prof-status').value = profile.status || 'active';
+      document.getElementById('prof-status-text').value = profile.status_text || '';
+      document.getElementById('prof-bio').value = profile.bio || '';
 
-async function saveProfile() {
-  const data = {
-    display_name: document.getElementById('prof-displayname').value.trim(),
-    status: document.getElementById('prof-status').value,
-    status_text: document.getElementById('prof-status-text').value.trim(),
-    bio: document.getElementById('prof-bio').value.trim(),
-  };
-  try {
-    const updated = await api('/auth/me/', { method: 'PUT', body: data });
-    STATE.user = updated;
-    localStorage.setItem('user', JSON.stringify(updated));
-    document.getElementById('sidebar-username').textContent = updated.profile?.display_name || updated.username;
-    document.getElementById('profile-modal').classList.remove('visible');
-    toast('Profile updated!', 'success');
-  } catch (err) {
-    toast(err.message, 'error');
-  }
-}
+      document.getElementById('prof-level').value = profile.employee_level || 'beginner';
+      document.getElementById('prof-skill').value = profile.skill_strength || '';
+      document.getElementById('prof-efficiency').textContent = profile.efficiency || '0';
+      document.getElementById('prof-reliability').textContent = profile.reliability || '0';
+      document.getElementById('prof-speed').textContent = profile.avg_time_per_task || '0';
+      document.getElementById('prof-tasks').textContent = profile.tasks_completed || '0';
+      document.getElementById('prof-tasks-assigned').textContent = profile.tasks_assigned || '0';
 
-async function sendThreadReply() {
-  const input = document.getElementById('thread-input');
-  const text = input.value.trim();
-  if (!text || !STATE.thread) return;
+      document.getElementById('profile-modal').classList.add('visible');
+    }
 
-  try {
-    const room = STATE.activeRoom;
-    await api(`/channels/${room.id}/messages/`, {
-      method: 'POST',
-      body: { text, parent: STATE.thread.id }
+    async function saveProfile() {
+      const data = {
+        display_name: document.getElementById('prof-displayname').value.trim(),
+        status: document.getElementById('prof-status').value,
+        status_text: document.getElementById('prof-status-text').value.trim(),
+        bio: document.getElementById('prof-bio').value.trim(),
+        employee_level: document.getElementById('prof-level').value,
+        skill_strength: document.getElementById('prof-skill').value.trim(),
+      };
+      try {
+        const updated = await api('/auth/me/', { method: 'PUT', body: data });
+        STATE.user = updated;
+        localStorage.setItem('user', JSON.stringify(updated));
+        document.getElementById('sidebar-username').textContent = updated.profile?.display_name || updated.username;
+        document.getElementById('profile-modal').classList.remove('visible');
+        toast('Profile updated!', 'success');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    }
+
+    async function sendThreadReply() {
+      const input = document.getElementById('thread-input');
+      const text = input.value.trim();
+      if (!text || !STATE.thread) return;
+
+      try {
+        const room = STATE.activeRoom;
+        await api(`/channels/${room.id}/messages/`, {
+          method: 'POST',
+          body: { text, parent: STATE.thread.id }
+        });
+        input.value = '';
+        openThread(STATE.thread.id);
+        toast('Reply sent!', 'success');
+      } catch (err) {
+        toast(err.message, 'error');
+      }
+    }
+
+    function closeAllModals() {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
+    }
+
+    // Close modals on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('visible');
+      });
     });
-    input.value = '';
-    openThread(STATE.thread.id);
-    toast('Reply sent!', 'success');
-  } catch (err) {
-    toast(err.message, 'error');
-  }
-}
 
-function closeAllModals() {
-  document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('visible'));
-}
+    // ── Calendar Logic ──────────────────────────────────────────────────
+    let calCurrentDate = new Date();
+    let calEvents = [];
 
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) overlay.classList.remove('visible');
-  });
-});
+    function toggleCalendar() {
+      const widget = document.getElementById('calendar-widget');
+      const icon = document.getElementById('cal-toggle-icon');
+      if (widget.classList.contains('minimized')) {
+        widget.classList.remove('minimized');
+        icon.textContent = '▼';
+        fetchCalendarEvents();
+      } else {
+        widget.classList.add('minimized');
+        icon.textContent = '▲';
+      }
+    }
 
-// Init auth on load
-window.addEventListener('DOMContentLoaded', initAuth);
-</script>
+    function changeMonth(delta) {
+      calCurrentDate.setMonth(calCurrentDate.getMonth() + delta);
+      renderCalendar();
+    }
+
+    async function fetchCalendarEvents() {
+      if (!STATE.workspace) return;
+      try {
+        calEvents = await api(`/workspaces/${STATE.workspace.id}/events/`);
+        renderCalendar();
+      } catch (e) {
+        console.error('Failed to fetch calendar events:', e);
+      }
+    }
+
+    function renderCalendar() {
+      const monthLabel = document.getElementById('cal-month-label');
+      const grid = document.getElementById('cal-grid');
+      const list = document.getElementById('cal-event-list');
+
+      if (!monthLabel || !grid) return;
+
+      const year = calCurrentDate.getFullYear();
+      const month = calCurrentDate.getMonth();
+      const today = new Date();
+
+      const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      monthLabel.textContent = `${monthNames[month]} ${year}`;
+
+      grid.innerHTML = '';
+      list.innerHTML = '';
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'calendar-day empty';
+        grid.appendChild(emptyCell);
+      }
+
+      // Filter events for this month
+      const monthEvents = calEvents.filter(ev => {
+        const d = new Date(ev.date);
+        return d.getFullYear() === year && d.getMonth() === month;
+      });
+
+      if (monthEvents.length === 0) {
+        list.innerHTML = '<div style="color:#868686;font-size:12px;text-align:center;padding:12px">No upcoming events.</div>';
+      } else {
+        monthEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+        monthEvents.forEach(ev => {
+          const isMeeting = ev.event_type === 'meeting';
+          const d = new Date(ev.date);
+          const timeStr = d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' · ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          list.innerHTML += `
+        <div class="calendar-event-item" style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div class="calendar-event-title" style="color:${isMeeting ? '#2bac76' : '#e01e5a'}">
+              ${isMeeting ? '📍' : '⏳'} ${ev.title}
+            </div>
+            <div class="calendar-event-date">${timeStr}</div>
+          </div>
+          <a class="btn btn-ghost" style="padding:4px; font-size:14px; border:1px solid #e8e8e8; border-radius:4px; text-decoration:none; display:inline-flex; align-items:center; justify-content:center;" href="${ev.google_calendar_url || '#'}" target="_blank" rel="noopener noreferrer" title="Add to Google Calendar">📅</a>
+        </div>
+      `;
+        });
+      }
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const dayCell = document.createElement('div');
+        dayCell.className = 'calendar-day';
+        if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
+          dayCell.classList.add('today');
+        }
+
+        const dayEvents = monthEvents.filter(ev => new Date(ev.date).getDate() === i);
+        let dotsHtml = '';
+        if (dayEvents.length > 0) {
+          const hasMeeting = dayEvents.some(ev => ev.event_type === 'meeting');
+          const hasDeadline = dayEvents.some(ev => ev.event_type === 'deadline');
+          dotsHtml = '<div class="calendar-event-dots">';
+          if (hasMeeting) dotsHtml += '<div class="calendar-event-dot meeting"></div>';
+          if (hasDeadline) dotsHtml += '<div class="calendar-event-dot deadline"></div>';
+          dotsHtml += '</div>';
+        }
+
+        dayCell.innerHTML = `<span>${i}</span>${dotsHtml}`;
+        grid.appendChild(dayCell);
+      }
+    }
+
+    // ── Dashboard Logic ──────────────────────────────────────────────────
+    async function showDashboardModal() {
+      const content = document.getElementById('dashboard-content');
+      content.innerHTML = '<p style="color:#616061;font-size:14px;padding:20px;text-align:center;">Loading workspace statistics...</p>';
+      document.getElementById('dashboard-modal').classList.add('visible');
+
+      try {
+        const stats = await api(`/workspaces/${STATE.workspace.id}/dashboard-stats/`);
+        renderDashboard(stats);
+      } catch (err) {
+        content.innerHTML = `<p style="color:#e01e5a;font-size:14px;padding:20px;text-align:center;">Failed to load dashboard: ${err.message}</p>`;
+      }
+    }
+
+    function closeDashboardModal() {
+      document.getElementById('dashboard-modal').classList.remove('visible');
+    }
+
+    function renderDashboard(data) {
+      const content = document.getElementById('dashboard-content');
+
+      // Dynamic Sentiment Breakdown
+      const totalSentiment = data.sentiment.positive + data.sentiment.negative + data.sentiment.neutral;
+      const positivePct = totalSentiment > 0 ? Math.round((data.sentiment.positive / totalSentiment) * 100) : 0;
+      const negativePct = totalSentiment > 0 ? Math.round((data.sentiment.negative / totalSentiment) * 100) : 0;
+      const neutralPct = totalSentiment > 0 ? Math.round((data.sentiment.neutral / totalSentiment) * 100) : 0;
+
+      // Progress Ring Calculations
+      const progressPercentage = data.progress.percentage;
+      const progressCircumference = 238.76; // 2 * pi * r (r=38)
+      const progressOffset = progressCircumference - (progressCircumference * progressPercentage / 100);
+
+      // Sentiment Donut Calculations
+      const sentimentCircumference = 219.91; // 2 * pi * r (r=35)
+      const posVal = (positivePct / 100) * sentimentCircumference;
+      const neuVal = (neutralPct / 100) * sentimentCircumference;
+      const negVal = (negativePct / 100) * sentimentCircumference;
+      const hasSentimentData = totalSentiment > 0;
+
+      // Progress Bar Color
+      let progressColor = '#e01e5a'; // Red
+      if (data.progress.percentage >= 70) progressColor = '#2bac76'; // Green
+      else if (data.progress.percentage >= 40) progressColor = '#ecb22e'; // Yellow
+
+      // Commits list HTML
+      let commitsHtml = '';
+      if (data.commits && data.commits.length > 0) {
+        commitsHtml = data.commits.map(c => `
+      <div class="commit-item">
+        <span class="commit-sha" title="View Commit SHA">${c.sha}</span>
+        <div class="commit-details">
+          <div class="commit-message">${c.message}</div>
+          <div class="commit-meta">${c.author} · ${c.date}</div>
+        </div>
+      </div>
+    `).join('');
+      } else {
+        commitsHtml = `
+      <div style="text-align:center; padding: 24px; color: var(--text-secondary); background: #fdfdfd; border: 1px dashed var(--border); border-radius: 6px; font-size: 13px;">
+        🐙 No linked GitHub repository, or no recent commits found.<br>
+        <span style="font-size:11px; color: var(--text-muted);">Workspace admins can link a repo in the sidebar.</span>
+      </div>
+    `;
+      }
+
+      content.innerHTML = `
+    <div style="display:flex; flex-direction:column; gap:20px; font-family: 'Lato', sans-serif;">
+      <!-- Project Progress Header Card with Circular Progress Ring -->
+      <div class="dashboard-card" style="background: linear-gradient(135deg, #fefefe, #f4effc); border-left: 4px solid var(--aubergine-light); padding: 16px; border-radius: 8px; box-shadow: var(--shadow); border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+        <div style="flex: 1;">
+          <h3 style="font-size:15px; font-weight:700; color:var(--aubergine-dark); margin:0 0 8px 0;">🚀 Project Overall Progress</h3>
+          <p style="font-size:13px; color:var(--text-secondary); line-height:1.6; margin:0 0 10px 0;">
+            Real-time delivery progress calculated from assigned milestones and tasks completed by all workspace contributors.
+          </p>
+          <div style="display:flex; gap:16px; font-size:12px; color:var(--text-secondary);">
+            <span>Tasks Completed: <strong style="color:var(--green);">${data.progress.total_tasks_completed}</strong></span>
+            <span>Total Assigned: <strong>${data.progress.total_tasks_assigned}</strong></span>
+          </div>
+        </div>
+        
+        <!-- SVG Progress Circle -->
+        <div style="position: relative; width: 90px; height: 90px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+          <svg width="90" height="90" viewBox="0 0 90 90" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+            <!-- Background circle -->
+            <circle cx="45" cy="45" r="38" fill="none" stroke="#f0f0f0" stroke-width="8" />
+            <!-- Active progress circle -->
+            <circle cx="45" cy="45" r="38" fill="none" stroke="${progressColor}" stroke-width="8"
+                    stroke-dasharray="${progressCircumference}" stroke-dashoffset="${progressOffset}"
+                    stroke-linecap="round" style="transition: stroke-dashoffset 0.8s ease-in-out;" />
+          </svg>
+          <!-- Center percentage text -->
+          <div style="position: absolute; font-size: 16px; font-weight: 900; color: var(--text-primary); text-align: center; line-height: 1;">
+            ${progressPercentage}%
+            <div style="font-size: 8px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-top:2px;">Done</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <div style="font-size:24px; margin-bottom:4px;">👥</div>
+          <div style="font-size:20px; font-weight:900;">${data.total_members}</div>
+          <div style="font-size:12px; color:var(--text-secondary);">Total Members</div>
+        </div>
+        <div class="dashboard-card">
+          <div style="font-size:24px; margin-bottom:4px;">💬</div>
+          <div style="font-size:20px; font-weight:900;">${data.total_messages}</div>
+          <div style="font-size:12px; color:var(--text-secondary);">Total Messages</div>
+        </div>
+        <div class="dashboard-card">
+          <div style="font-size:24px; margin-bottom:4px;">✅</div>
+          <div style="font-size:20px; font-weight:900;">${data.intents.tasks}</div>
+          <div style="font-size:12px; color:var(--text-secondary);">Chat Tasks Identified</div>
+        </div>
+        <div class="dashboard-card">
+          <div style="font-size:24px; margin-bottom:4px;">❓</div>
+          <div style="font-size:20px; font-weight:900;">${data.intents.questions}</div>
+          <div style="font-size:12px; color:var(--text-secondary);">Chat Questions Asked</div>
+        </div>
+      </div>
+
+      <!-- Sentiment & Chat Analysis -->
+      <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; gap: 16px;">
+        <!-- Circular Donut Sentiment Card -->
+        <div class="dashboard-card" style="display: flex; flex-direction: column;">
+          <h3 style="font-size:14px; font-weight:700; margin-bottom:16px; border-bottom:1px solid #f0f0f0; padding-bottom:6px; color: var(--text-primary);">😊 Chat Sentiment Analysis</h3>
+          
+          <div style="display:flex; align-items:center; justify-content:space-between; gap: 16px; flex: 1;">
+            <!-- Circular Donut SVG -->
+            <div style="position: relative; width: 100px; height: 100px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+              <svg width="100" height="100" viewBox="0 0 100 100" style="transform: rotate(-90deg); width: 100%; height: 100%;">
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#f0f0f0" stroke-width="12" />
+                ${hasSentimentData ? `
+                  <!-- Positive segment -->
+                  <circle cx="50" cy="50" r="35" fill="none" stroke="var(--green)" stroke-width="12"
+                          stroke-dasharray="${posVal} ${sentimentCircumference}" stroke-dashoffset="0" />
+                  <!-- Neutral segment -->
+                  <circle cx="50" cy="50" r="35" fill="none" stroke="var(--text-muted)" stroke-width="12"
+                          stroke-dasharray="${neuVal} ${sentimentCircumference}" stroke-dashoffset="-${posVal}" />
+                  <!-- Negative segment -->
+                  <circle cx="50" cy="50" r="35" fill="none" stroke="var(--red)" stroke-width="12"
+                          stroke-dasharray="${negVal} ${sentimentCircumference}" stroke-dashoffset="-${posVal + neuVal}" />
+                ` : `
+                  <!-- Empty placeholder ring -->
+                  <circle cx="50" cy="50" r="35" fill="none" stroke="#e0e0e0" stroke-width="12" />
+                `}
+              </svg>
+              <!-- Center text -->
+              <div style="position: absolute; font-size: 11px; font-weight: 700; color: var(--text-secondary); text-align: center; line-height: 1.1;">
+                <strong style="font-size: 15px; color: var(--text-primary);">${totalSentiment}</strong><br>Msgs
+              </div>
+            </div>
+
+            <!-- Legend and Details -->
+            <div style="display:flex; flex-direction:column; gap:8px; flex: 1; padding-left: 8px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
+                <span style="display:flex; align-items:center; gap:6px;">
+                  <span style="width:10px; height:10px; border-radius:50%; background:var(--green); display:inline-block;"></span>
+                  Positive
+                </span>
+                <strong style="color:var(--text-primary);">${data.sentiment.positive} (${positivePct})</strong>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
+                <span style="display:flex; align-items:center; gap:6px;">
+                  <span style="width:10px; height:10px; border-radius:50%; background:var(--text-muted); display:inline-block;"></span>
+                  Neutral
+                </span>
+                <strong style="color:var(--text-primary);">${data.sentiment.neutral} (${neutralPct})</strong>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:12px;">
+                <span style="display:flex; align-items:center; gap:6px;">
+                  <span style="width:10px; height:10px; border-radius:50%; background:var(--red); display:inline-block;"></span>
+                  Negative
+                </span>
+                <strong style="color:var(--text-primary);">${data.sentiment.negative} (${negativePct})</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-card" style="display: flex; flex-direction: column;">
+          <h3 style="font-size:14px; font-weight:700; margin-bottom:12px; border-bottom:1px solid #f0f0f0; padding-bottom:6px; color: var(--text-primary);">💡 Project Health Insights</h3>
+          <div style="font-size:13px; line-height:1.6; color:var(--text-secondary); display:flex; flex-direction:column; gap:10px; flex: 1; justify-content: center;">
+            <div style="display:flex; align-items:flex-start; gap:8px;">
+              <span style="font-size: 16px;">📊</span>
+              <span>Workspace message volume is currently at <strong>${data.total_messages} messages</strong> across all public channels.</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:8px;">
+              <span style="font-size: 16px;">🎯</span>
+              <span><strong>${data.intents.tasks} actionable tasks</strong> and <strong>${data.intents.questions} questions</strong> have been registered in general project chat.</span>
+            </div>
+            <div style="display:flex; align-items:flex-start; gap:8px;">
+              <span style="font-size: 16px;">✨</span>
+              <span>Project sentiment is predominantly <strong>${positivePct >= 50 ? 'Positive & Productive' : positivePct >= 30 ? 'Collaborative' : 'Developing'}</strong>.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Project Channels and Milestones list -->
+      ${(() => {
+          if (!data.projects || data.projects.length === 0) return '';
+          return `
+          <div class="dashboard-card" style="margin-top: 16px;">
+            <h3 style="font-size:14px; font-weight:700; margin-bottom:12px; border-bottom:1px solid #f0f0f0; padding-bottom:6px; color: var(--text-primary);">🤖 AI Project Channels & Milestones</h3>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              ${data.projects.map(proj => {
+            let pColor = '#e01e5a';
+            if (proj.progress >= 70) pColor = '#2bac76';
+            else if (proj.progress >= 40) pColor = '#ecb22e';
+
+            const teamChips = proj.qualified_employees.map(name => `
+                  <span style="background:#f1edf8; border:1px solid #dcd3f5; border-radius:10px; padding:2px 6px; font-size:10px; color:#583ba8; font-weight:700; display:inline-block; margin-right:4px;">👤 ${name}</span>
+                `).join('');
+
+            return `
+                  <div style="background:#fafafa; border:1px solid var(--border); border-radius:8px; padding:12px; display:flex; flex-direction:column; gap:6px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                      <strong style="color:var(--aubergine-dark); font-size:13px;"># ${proj.name}</strong>
+                      <span style="font-size:12px; font-weight:800; color:${pColor};">${proj.progress}%</span>
+                    </div>
+                    <div style="font-size:11px; color:var(--text-secondary);">${proj.description || 'No description provided.'}</div>
+                    
+                    <!-- Progress Line -->
+                    <div style="width:100%; height:6px; background:rgba(0,0,0,0.06); border-radius:3px; overflow:hidden;">
+                      <div style="width:${proj.progress}%; height:100%; background:${pColor}; border-radius:3px;"></div>
+                    </div>
+
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:11px; color:var(--text-muted); margin-top:2px;">
+                      <span>Milestones: <strong>${proj.completed_milestones}</strong> / ${proj.total_milestones}</span>
+                      <div>${teamChips}</div>
+                    </div>
+                  </div>
+                `;
+          }).join('')}
+            </div>
+          </div>
+        `;
+        })()}
+
+      <!-- Recent GitHub Commits -->
+      <div class="dashboard-card">
+        <h3 style="font-size:14px; font-weight:700; margin-bottom:12px; border-bottom:1px solid #f0f0f0; padding-bottom:6px; color: var(--text-primary);">🐙 Recent GitHub Commits</h3>
+        <div class="commits-list-container" style="max-height: 250px; overflow-y: auto;">
+          ${commitsHtml}
+        </div>
+      </div>
+    </div>
+  `;
+    }
+
+    // Init auth on load
+    window.addEventListener('DOMContentLoaded', initAuth);
+  </script>
 
 </body>
+
 </html>

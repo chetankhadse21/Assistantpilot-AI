@@ -22,14 +22,20 @@ let STATE = {
 function api(path, options = {}) {
   const token = localStorage.getItem('token'); // always read fresh
   
+  const isFormData = options.body instanceof FormData;
+  const headers = {
+    ...(token ? { 'Authorization': `Token ${token}` } : {}),
+    ...options.headers,
+  };
+  
+  if (!isFormData && !headers['Content-Type']) {
+    headers['Content-Type'] = 'application/json';
+  }
+
   return fetch(`${API_BASE}${path}`, {
     method: options.method || 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { 'Authorization': `Token ${token}` } : {}),
-      ...options.headers,
-    },
-    body: options.body ? JSON.stringify(options.body) : undefined,
+    headers: headers,
+    body: isFormData ? options.body : (options.body ? JSON.stringify(options.body) : undefined),
   }).then(async res => {
     if (res.status === 401) {
       localStorage.clear();
@@ -87,14 +93,31 @@ function getAvatarColor(name) {
 
 function renderMsgText(text) {
   if (!text) return '';
-  // Code blocks
-  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
-  // Bold
+  
+  // 1. Headings (Markdown headers)
+  text = text.replace(/^### (.*$)/gim, '<h3 style="margin: 12px 0 6px 0; font-size: 15px; font-weight: 800; color: #1a1d2e;">$1</h3>');
+  text = text.replace(/^## (.*$)/gim, '<h2 style="margin: 14px 0 8px 0; font-size: 17px; font-weight: 900; color: #1a1d2e;">$1</h2>');
+  text = text.replace(/^# (.*$)/gim, '<h1 style="margin: 16px 0 10px 0; font-size: 19px; font-weight: 900; color: #1a1d2e;">$1</h1>');
+
+  // 2. Bullet lists at the start of lines (handle spaces and convert to a clean bullet point character)
+  text = text.replace(/^\s*\*\s+/gm, '• ');
+  text = text.replace(/^\s*-\s+/gm, '• ');
+
+  // 3. Bold: Double asterisks first (Markdown standard)
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  
+  // 4. Bold/Italic: Single asterisks (Slack/standard Markdown)
   text = text.replace(/\*([^*]+)\*/g, '<strong>$1</strong>');
-  // Mentions
+
+  // 5. Code blocks (inline code)
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+
+  // 6. Mentions
   text = text.replace(/@(\w+)/g, '<span class="mention">@$1</span>');
-  // Links
+
+  // 7. Links
   text = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+
   return text;
 }
 

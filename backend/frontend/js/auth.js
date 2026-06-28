@@ -1,25 +1,21 @@
 // ── Authentication ──────────────────────────────────────────────────────────
 
 function initAuth() {
-  // Tab switching
   document.querySelectorAll('.auth-tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
       tab.classList.add('active');
-      document.getElementById(`form-${tab.dataset.tab}`).classList.add('active');
+      document.getElementById(`form-${tab.dataset.tab}`)?.classList.add('active');
     });
   });
 
-  // Login form
-  document.getElementById('login-btn').addEventListener('click', handleLogin);
-  document.getElementById('login-password').addEventListener('keydown', e => {
+  document.getElementById('login-btn')?.addEventListener('click', handleLogin);
+  document.getElementById('login-password')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') handleLogin();
   });
-
-  // Register form
-  document.getElementById('register-btn').addEventListener('click', handleRegister);
-  document.getElementById('register-password').addEventListener('keydown', e => {
+  document.getElementById('register-btn')?.addEventListener('click', handleRegister);
+  document.getElementById('register-password')?.addEventListener('keydown', e => {
     if (e.key === 'Enter') handleRegister();
   });
 }

@@ -11,9 +11,27 @@ Features:
 
 import re
 import logging
+import datetime
 from typing import Dict, List, Tuple
 
 logger = logging.getLogger(__name__)
+
+def parse_fuzzy_date(text: str) -> datetime.datetime:
+    """Very rudimentary date parser for AI mockup purposes."""
+    text = text.lower()
+    now = datetime.datetime.now()
+    if 'tomorrow' in text:
+        return now + datetime.timedelta(days=1)
+    if 'monday' in text:
+        days_ahead = 0 - now.weekday()
+        if days_ahead <= 0: days_ahead += 7
+        return now + datetime.timedelta(days=days_ahead)
+    if 'friday' in text:
+        days_ahead = 4 - now.weekday()
+        if days_ahead <= 0: days_ahead += 7
+        return now + datetime.timedelta(days=days_ahead)
+    # Default fallback to tomorrow if it detects a date but doesn't know it
+    return now + datetime.timedelta(days=1)
 
 # Lazy-load spaCy to avoid slowing down Django startup
 _nlp = None
@@ -30,6 +48,11 @@ def get_nlp():
             _nlp = None
         except ImportError:
             logger.warning("⚠️  spaCy not installed. Run: pip install spacy")
+            _nlp = None
+        except Exception as e:
+            # spaCy can crash on Python 3.14+ due to pydantic v1 incompatibility.
+            # Fall back to regex-only mode so the app still runs.
+            logger.warning(f"⚠️  spaCy failed to load (Python version incompatibility?): {e}")
             _nlp = None
     return _nlp
 
@@ -146,7 +169,14 @@ def extract_tags(text: str) -> List[str]:
         words = re.findall(r'\b[A-Za-z]{4,}\b', text)
         stopwords = {'this', 'that', 'with', 'have', 'from', 'they', 'will', 'been',
                      'just', 'also', 'into', 'some', 'your', 'their', 'what', 'when'}
-        keywords = [w.lower() for w in words if w.lower() not in stopwords]
+        temporals = {'tomorrow', 'today', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'}
+        
+        for w in words:
+            wl = w.lower()
+            if wl in temporals:
+                tags.append(f"date:{wl}")
+        
+        keywords = [w.lower() for w in words if w.lower() not in stopwords and w.lower() not in temporals]
         tags.extend(list(set(keywords))[:3])
 
     # Deduplicate while preserving order
